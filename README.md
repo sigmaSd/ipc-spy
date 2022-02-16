@@ -19,3 +19,4 @@ Here is an example of spying on vim-coc<=>rust-analyzer comminucations
 - `deno run -A boss.ts` => prints a list of currently spyied on executables
 - `deno run -A boss.ts $target` => spys on target
 - `deno run -A boss.ts restore $target` => restore the original target
+- `prox.ts` location can be specified with `PROX` environment variable

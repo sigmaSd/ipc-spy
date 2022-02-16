@@ -51,11 +51,11 @@ switch (Deno.args.length) {
 async function spy(
   { target, originTarget }: { target: string; originTarget: string },
 ) {
-  const proxPath = path.resolve("./prox.ts");
+  const proxPath = Deno.env.get("PROX") || path.resolve("./prox.ts");
   const proxBinPath = path.join(SPY_FOLDER, "bin/prox");
 
   // 3- Compile prox
-  await Deno.run({
+  const proxS = await Deno.run({
     cmd: [
       "deno",
       "compile",
@@ -65,6 +65,9 @@ async function spy(
       proxPath,
     ],
   }).status();
+  if (!proxS.success) {
+    return;
+  }
 
   const wrapper = `
 import * as path from "https://deno.land/std@0.125.0/path/mod.ts";
