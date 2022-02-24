@@ -11,7 +11,7 @@ the original processes
 ## Usage
 
 - clone this repo and cd into it
-- deno run -A boss.ts $pathTotargetfile
+- deno run -A src/boss.ts $pathTotargetfile
 
 Now the original executable is saved at `$cache/spy-folder/`, and the specified
 path is replaced with the spy wrapper
@@ -25,7 +25,7 @@ Here is an example of spying on vim-coc<=>rust-analyzer comminucations
 
 ## Cli
 
-- `deno run -A boss.ts` => prints a list of currently spyied on executables
-- `deno run -A boss.ts $target` => spys on target
-- `deno run -A boss.ts restore $target` => restore the original target
+- `deno run -A src/boss.ts` => prints a list of currently spyied on executables
+- `deno run -A src/boss.ts $target` => spys on target
+- `deno run -A src/boss.ts restore $target` => restore the original target
 - `prox.ts` location can be specified with `PROX` environment variable

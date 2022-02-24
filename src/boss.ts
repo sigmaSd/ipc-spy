@@ -1,7 +1,7 @@
 import * as path from "https://deno.land/std@0.125.0/path/mod.ts";
-import dir from "https://deno.land/x/dir@v1.2.0/mod.ts";
+import { cacheDir } from "./utils.ts";
 
-const SPY_FOLDER = path.join(dir("cache")!, "spy-boss");
+const SPY_FOLDER = path.join(cacheDir()!, "spy-boss");
 const DB = path.join(SPY_FOLDER, "db.txt");
 
 //  Make sure spy folder ,bin dir(holds prox binary) and db exist
@@ -51,7 +51,7 @@ switch (Deno.args.length) {
 async function spy(
   { target, originTarget }: { target: string; originTarget: string },
 ) {
-  const proxPath = Deno.env.get("PROX") || path.resolve("./prox.ts");
+  const proxPath = Deno.env.get("PROX") || path.resolve("./src/prox.ts");
   const proxBinPath = path.join(SPY_FOLDER, "bin/prox");
 
   // 3- Compile prox
@@ -70,8 +70,6 @@ async function spy(
   }
 
   const wrapper = `
-import * as path from "https://deno.land/std@0.125.0/path/mod.ts";
-
 await Deno.run({
   cmd: ["${proxBinPath}", "${originTarget}", ...Deno.args],
 }).status();
