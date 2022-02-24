@@ -8,7 +8,7 @@ const PUPPET_LOG = Deno.createSync(
   path.join(tempDirectory, "puppet_trace.log") || "/tmp/puppet_trace.log",
 );
 
-async function log(text: string, log: Deno.File) {
+async function log(text: string, log: Deno.FsFile) {
   await log.write(new TextEncoder().encode(text));
 }
 

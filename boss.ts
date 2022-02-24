@@ -1,5 +1,5 @@
 import * as path from "https://deno.land/std@0.125.0/path/mod.ts";
-import dir from "https://deno.land/x/dir/mod.ts";
+import dir from "https://deno.land/x/dir@v1.2.0/mod.ts";
 
 const SPY_FOLDER = path.join(dir("cache")!, "spy-boss");
 const DB = path.join(SPY_FOLDER, "db.txt");
