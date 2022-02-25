@@ -51,7 +51,9 @@ switch (Deno.args.length) {
 async function spy(
   { target, originTarget }: { target: string; originTarget: string },
 ) {
-  const proxPath = Deno.env.get("PROX") || path.resolve("./src/prox.ts");
+  const proxPath = Deno.env.get("PROX") ||
+    path.dirname(import.meta.url.replace("file://", "")) + "/prox.ts";
+  console.log(proxPath);
   const proxBinPath = path.join(SPY_FOLDER, "bin/prox");
 
   // 3- Compile prox
