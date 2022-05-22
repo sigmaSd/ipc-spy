@@ -1,4 +1,5 @@
 import { tempDirectory } from "./utils.ts";
+import { mergeReadableStreams } from "https://deno.land/std@0.140.0/streams/merge.ts";
 import * as path from "https://deno.land/std@0.125.0/path/mod.ts";
 
 const CONTROL_LOG = Deno.createSync(
@@ -12,46 +13,33 @@ async function log(text: string, log: Deno.FsFile) {
   await log.write(new TextEncoder().encode(text));
 }
 
-const PUPPET = Deno.run({
-  cmd: [...Deno.args],
+const PUPPET = Deno.spawnChild(Deno.args[0], {
+  args: Deno.args.slice(1),
   stdin: "piped",
   stdout: "piped",
   stderr: "piped",
 });
 
-async function readFromPuppetAndWriteToControl() {
-  const buf = new Uint8Array(512);
-  while (true) {
-    // Read from puppet
-    const n = await Promise.race([
-      PUPPET.stdout.read(buf),
-      PUPPET.stderr.read(buf),
-    ]);
-    const input = buf.slice(0, n!);
-    // Log puppet msg
-    await log(
-      new TextDecoder().decode(input),
-      PUPPET_LOG,
-    );
-    // Write to control
-    await Deno.stdout.write(input);
+class Logger extends TransformStream<Uint8Array, Uint8Array> {
+  constructor(logFile: Deno.FsFile) {
+    super({
+      transform(chunk, controller) {
+        log(new TextDecoder().decode(chunk), logFile);
+        controller.enqueue(chunk);
+      },
+    });
   }
+}
+async function readFromPuppetAndWriteToControl() {
+  await PUPPET.stdout.pipeThrough(
+    new Logger(PUPPET_LOG),
+  ).pipeTo(Deno.stdout.writable);
 }
 
 async function readFromControlAndWriteToPuppet() {
-  const buf = new Uint8Array(512);
-  while (true) {
-    // Read from control
-    const n = await Deno.stdin.read(buf);
-    const input = buf.slice(0, n!);
-    // log control msg
-    await log(
-      new TextDecoder().decode(input),
-      CONTROL_LOG,
-    );
-    // Write to puppet
-    await PUPPET.stdin.write(input);
-  }
+  await Deno.stdin.readable.pipeThrough(new Logger(CONTROL_LOG)).pipeTo(
+    PUPPET.stdin,
+  );
 }
 
 await Promise.all([

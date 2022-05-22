@@ -60,6 +60,7 @@ async function spy(
     cmd: [
       "deno",
       "compile",
+      "--unstable",
       "-o",
       proxBinPath,
       "-A",
