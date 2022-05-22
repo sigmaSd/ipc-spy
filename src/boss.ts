@@ -8,7 +8,7 @@ const DB = path.join(SPY_FOLDER, "db.txt");
 Deno.mkdirSync(path.join(SPY_FOLDER, "bin"), {
   recursive: true,
 });
-if (!Deno.statSync(DB).isFile) {
+if (!fileExists(DB)) {
   Deno.createSync(DB);
 }
 
@@ -22,7 +22,7 @@ switch (Deno.args.length) {
     const target = Deno.args[0];
     // 1- Save target
     const originTarget = path.join(SPY_FOLDER, path.basename(target));
-    if (!Deno.statSync(originTarget).isFile) {
+    if (!fileExists(originTarget)) {
       Deno.copyFileSync(target, originTarget);
     }
     // 2- spy
@@ -110,4 +110,18 @@ function removeFromDb(
     line != entry
   ).join("\n");
   Deno.writeFileSync(DB, new TextEncoder().encode(newDb));
+}
+
+// function to check if a file exists
+function fileExists(filePath: string): boolean {
+  try {
+    Deno.statSync(filePath);
+    return true;
+    // catch deno not found instance
+  } catch (e) {
+    if (e instanceof Deno.errors.NotFound) {
+      return false;
+    }
+    throw e;
+  }
 }
