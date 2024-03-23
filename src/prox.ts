@@ -1,4 +1,4 @@
-import * as path from "jsr:@std/path@0.220.1";
+import * as path from "@std/path";
 import { tempDir } from "./utils.ts";
 
 class Logger extends TransformStream<Uint8Array, Uint8Array> {

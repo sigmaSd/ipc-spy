@@ -1,4 +1,4 @@
-import * as path from "jsr:@std/path@0.220.1";
+import * as path from "@std/path";
 import { cacheDir } from "./utils.ts";
 
 const SPY_FOLDER = path.join(cacheDir()!, "spy-boss");
