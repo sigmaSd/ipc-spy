@@ -54,6 +54,17 @@ async function spy(
   { target, originTarget }: { target: string; originTarget: string },
 ) {
   const proxBinPath = path.join(SPY_FOLDER, "bin/prox");
+  let proxPath = import.meta.resolve("./prox.ts");
+  // deno compile donsn't handle htts://jsr.io currently
+  if (proxPath.startsWith("https://jsr.io")) {
+    const version = proxPath.match(/@sigmasd\/ipc-spy\/(.*?)\//)?.at(1);
+    if (version) {
+      proxPath = "jsr:@sigmasd/ipc-spy@" + version;
+    } else {
+      proxPath = "jsr:@sigmasd/ipc-spy";
+    }
+    proxPath += "/_prox";
+  }
 
   // 3- Compile prox
   const proxS = await new Deno.Command(
@@ -65,7 +76,7 @@ async function spy(
         "-o",
         proxBinPath,
         "-A",
-        import.meta.resolve("./prox.ts"),
+        proxPath,
       ],
     },
   ).spawn().status;
