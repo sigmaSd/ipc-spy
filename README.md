@@ -27,4 +27,4 @@ Now the messages will be logged to `$tmp/${executable_name}_stdin.log`,
 
 ** Example **
 
-[Screencast from 2024-03-23 08-34-54.webm](https://github.com/sigmaSd/ipc-spy/assets/22427111/562e5b66-f184-4a6c-b3a7-a963758589ea)
+[Screencast from 2024-03-23 17-06-44.webm](https://github.com/sigmaSd/ipc-spy/assets/22427111/40d4c5af-785f-42d3-9afe-4744952a4ad9)
