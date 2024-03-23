@@ -1,12 +1,11 @@
 import * as path from "@std/path";
-import { tempDir } from "./utils.ts";
 
 class Logger extends TransformStream<Uint8Array, Uint8Array> {
   constructor(logPath: string) {
-    const logFile = Deno.createSync(logPath);
+    const logFile = Deno.create(logPath);
     super({
       transform(chunk, controller) {
-        logFile.write(chunk);
+        logFile.then((file) => file.write(chunk));
         controller.enqueue(chunk);
       },
     });
@@ -43,19 +42,24 @@ async function spyStderr({ target, logPath }: Target) {
   ).pipeTo(Deno.stderr.writable);
 }
 
-if (import.meta.main) {
-  const target_path = Deno.args[0];
-  if (!target_path) {
-    throw new Error("No target specified");
-  }
-  const targetName = path.basename(target_path);
+export async function prox(targetPath: string, args: string[]) {
+  const targetName = path.basename(targetPath);
 
-  const target = new Deno.Command(target_path, {
-    args: Deno.args.slice(1),
+  const target = new Deno.Command(targetPath, {
+    args,
     stdin: "piped",
     stdout: "piped",
     stderr: "piped",
   }).spawn();
+
+  const tempDir = await Deno.realPath((() => {
+    if (Deno.build.os === "windows") {
+      return Deno.env.get("TMP") || Deno.env.get("TEMP") ||
+        Deno.env.get("USERPROFILE") || Deno.env.get("SystemRoot") || "";
+    }
+
+    return "/tmp";
+  })());
 
   await Promise.any([
     spyStatus(target),
@@ -77,6 +81,12 @@ if (import.meta.main) {
       }),
     ]),
   ]);
+}
 
+if (import.meta.main) {
+  const targetPath = Deno.args[0];
+  if (!targetPath) {
+    throw new Error("No target specified");
+  }
   Deno.exit(0);
 }

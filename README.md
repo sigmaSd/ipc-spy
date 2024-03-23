@@ -8,27 +8,23 @@ It spys on ipc communications, by replacing the binary that is spawned with a
 wrapper that logs all the communication while still forwrading the messages to
 the original processes
 
+This is for example useful to see what an lsp is sending exactly, or any ohter based ipc setup.
+
 ## Install
 
-`deno install -A https://raw.githubusercontent.com/sigmaSd/ipc-spy/stream/src/boss.ts`
+`deno install -A jsr:@sigmasd/ipc-spy`
 
 ## Usage
 
-`boss $pathTotargetfile`
+`ipc-spy $pathTotargetfile`
 
-Now the original executable is saved at `$cache/spy-folder/`, and the specified
-path is replaced with the spy wrapper
+This will create a new executable with `-spy` suffix appeneded to it in the current directory. 
 
-The next step is to run the program that calls the target, when it spawns the
-target, the messages will be logged to `$tmp/${executable_name}_stdin.log` and
-`$tmp/${executable_name_stdout}.log`
+The next step is to run the new program `$pathTotargetfile-spy` or make another program call it (like a text editor in case of lsp).
+
+Now the messages will be logged to `$tmp/${executable_name}_stdin.log`, 
+`$tmp/${executable_name_stdout}.log` and `$tmp/${executable_name_stderr}.log`
 
 ** Example **
 
 [Screencast from 2024-03-23 08-34-54.webm](https://github.com/sigmaSd/ipc-spy/assets/22427111/562e5b66-f184-4a6c-b3a7-a963758589ea)
-
-## Cli
-
-- `boss` => prints a list of currently spyied on executables
-- `boss.ts $target` => spys on target
-- `boss.ts restore $target` => restore the original target
