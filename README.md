@@ -28,6 +28,8 @@ program call it (like a text editor in case of lsp).
 Now the messages will be logged to `$tmp/${executable_name}_stdin.log`,
 `$tmp/${executable_name_stdout}.log` and `$tmp/${executable_name_stderr}.log`
 
-**Example**
+## Examples
+
+**Example 1**
 
 [Screencast from 2024-03-23 17-06-44.webm](https://github.com/sigmaSd/ipc-spy/assets/22427111/40d4c5af-785f-42d3-9afe-4744952a4ad9)

@@ -26,7 +26,7 @@ The next step is to run the new program `$pathTotargetfile-spy` or make another 
 Now the messages will be logged to `$tmp/${executable_name}_stdin.log`,
 `$tmp/${executable_name_stdout}.log` and `$tmp/${executable_name_stderr}.log`
 
-**Example**
+@example
 
 [Screencast from 2024-03-23 17-06-44.webm](https://github.com/sigmaSd/ipc-spy/assets/22427111/40d4c5af-785f-42d3-9afe-4744952a4ad9)
 
