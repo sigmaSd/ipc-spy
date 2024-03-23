@@ -8,7 +8,8 @@
 @module
 */
 
-import * as path from "@std/path";
+import { basename as pathBasename } from "@std/path/basename";
+import { join as pathJoin } from "@std/path/join";
 
 class Logger extends TransformStream<Uint8Array, Uint8Array> {
   constructor(logPath: string) {
@@ -61,7 +62,7 @@ async function spyStderr({ target, logPath }: Target) {
  * @param {string[]} args - An array of arguments to pass to the command.
  */
 export async function prox(targetPath: string, args: string[]) {
-  const targetName = path.basename(targetPath);
+  const targetName = pathBasename(targetPath);
 
   const target = new Deno.Command(targetPath, {
     args,
@@ -84,17 +85,17 @@ export async function prox(targetPath: string, args: string[]) {
     Promise.allSettled([
       spyStdin({
         target,
-        logPath: path.join(tempDir, `${targetName}_stdin.log`) ||
+        logPath: pathJoin(tempDir, `${targetName}_stdin.log`) ||
           `/tmp/${targetName}_stdin.log`,
       }),
       spyStdout({
         target,
-        logPath: path.join(tempDir, `${targetName}_stdout.log`) ||
+        logPath: pathJoin(tempDir, `${targetName}_stdout.log`) ||
           `/tmp/${targetName}_stdout.log`,
       }),
       spyStderr({
         target,
-        logPath: path.join(tempDir, `${targetName}_stderr.log`) ||
+        logPath: pathJoin(tempDir, `${targetName}_stderr.log`) ||
           `/tmp/${targetName}_stderr.log`,
       }),
     ]),

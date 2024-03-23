@@ -30,7 +30,7 @@ Now the messages will be logged to `$tmp/${executable_name}_stdin.log`,
 
 @module
 */
-import * as path from "@std/path";
+import { basename as pathBasename } from "@std/path/basename";
 
 if (import.meta.main) {
   const target = Deno.args[0];
@@ -67,7 +67,7 @@ Deno.exit(0);
       "compile",
       "--no-check",
       "-o",
-      `${path.basename(target)}-spy`,
+      `${pathBasename(target)}-spy`,
       "-A",
       wrapperFile,
     ],
