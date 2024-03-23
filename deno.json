@@ -1,6 +1,6 @@
 {
   "name": "@sigmasd/ipc-spy",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "exports": {
     ".": "./src/main.ts",
     "./_prox": "./src/prox.ts",

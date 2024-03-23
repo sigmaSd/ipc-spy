@@ -42,6 +42,14 @@ async function spyStderr({ target, logPath }: Target) {
   ).pipeTo(Deno.stderr.writable);
 }
 
+/**
+ * Executes a command with specified arguments and monitors its stdin, stdout, and stderr.
+ * Logs the stdin, stdout, and stderr streams to temporary log files.
+ *
+ * @async
+ * @param {string} targetPath - The path to the target command to execute.
+ * @param {string[]} args - An array of arguments to pass to the command.
+ */
 export async function prox(targetPath: string, args: string[]) {
   const targetName = path.basename(targetPath);
 
