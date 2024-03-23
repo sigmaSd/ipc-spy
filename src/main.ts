@@ -19,7 +19,7 @@ This is for example useful to see what an lsp is sending exactly, or any other b
 
 This will create a new executable with `-spy` suffix appeneded to it in the current directory.
 
-The next step is to run the new program `$pathTotargetfile-spy` or make another program call it (like a text editor in case of lsp).
+The next step is to run the new program `$file-spy` or make another program call it (like a text editor in case of lsp).
 
 Now the messages will be logged to `$tmp/${executable_name}_stdin.log`,
 `$tmp/${executable_name_stdout}.log` and `$tmp/${executable_name_stderr}.log`
