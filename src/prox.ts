@@ -1,3 +1,13 @@
+/**
+ * This module provides functionality to execute a command with specified arguments and monitor its
+ * stdin, stdout, and stderr. It logs the stdin, stdout, and stderr streams to temporary log files.
+
+ @example
+ await prox("/usr/bin/ls", ["-l"])
+
+@module
+*/
+
 import * as path from "@std/path";
 
 class Logger extends TransformStream<Uint8Array, Uint8Array> {
