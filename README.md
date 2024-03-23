@@ -4,11 +4,11 @@ Spy on inter process comunication(IPC)
 
 ## What does it do?
 
-It spys on ipc communications, by replacing the binary that is spawned with a
-wrapper that logs all the communication while still forwrading the messages to
-the original processes
+Spy on ipc communications, by replacing the binary that is spawned with a
+wrapper that logs all the communication while still forwarding the messages to
+the original processes.
 
-This is for example useful to see what an lsp is sending exactly, or any ohter
+This is for example useful to see what an lsp is sending exactly, or any other
 based ipc setup.
 
 ## Install
