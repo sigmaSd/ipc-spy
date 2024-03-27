@@ -1,9 +1,9 @@
 {
   "name": "@sigmasd/ipc-spy",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "exports": {
     ".": "./src/main.ts",
-    "./_prox": "./src/prox.ts",
+    "./_prox": "./src/prox.ts"
   },
   "imports": { "@std/path": "jsr:@std/path@^0.220.1" }
 }
