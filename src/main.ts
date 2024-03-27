@@ -31,11 +31,14 @@ Now the messages will be logged to `$tmp/${executable_name}_stdin.log`,
 @module
 */
 import { basename as pathBasename } from "@std/path/basename";
+import { resolve as pathResolve } from "@std/path/resolve";
 
 if (import.meta.main) {
   const target = Deno.args[0];
   if (!target) throw new Error("no target specified");
-  await spy(target);
+  // spy will run the target from a diiferent locaton then CWD
+  // so we make sure to give it the absolute path
+  await spy(pathResolve(target));
 }
 
 async function spy(target: string) {
